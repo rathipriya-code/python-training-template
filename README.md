@@ -90,9 +90,12 @@ days/
 
 ### Step-by-Step Process
 
-1. **Navigate to the day's folder**:
+**Important**: Always run `make` commands from the **project root directory** (`python-excercises/`), not from inside the day folders.
+
+1. **Open the day's task.py file** in your editor:
    ```bash
-   cd days/day_01_type_hinting
+   # Open/view the file (stay in root directory)
+   cat days/day_01_type_hinting/task.py
    ```
 
 2. **Read the task.py file**:
@@ -102,22 +105,22 @@ days/
 
 3. **Read the tests** to understand expected behavior:
    ```bash
-   cat test_task.py
+   cat days/day_01_type_hinting/test_task.py
    ```
 
-4. **Run tests** (they will fail initially):
+4. **Run tests from the root directory** (they will fail initially):
    ```bash
    make test-day DAY=01
    ```
 
-5. **Implement functions** in `task.py` until tests pass:
+5. **Edit and implement functions** in `days/day_01_type_hinting/task.py`:
    ```python
    def calculate_billable_hours(regular_hours: float, overtime_hours: float) -> float:
        """Calculate total billable hours"""
        return regular_hours + (overtime_hours * 1.5)  # Your implementation
    ```
 
-6. **Re-run tests** to verify:
+6. **Re-run tests** to verify (from root directory):
    ```bash
    make test-day DAY=01
    ```
@@ -129,9 +132,17 @@ days/
 
 8. **Move to the next day** once all tests pass!
 
+**Tip**: If you're inside a day folder (e.g., `days/day_01_type_hinting/`), navigate back to root with:
+```bash
+cd ../..
+make test-day DAY=01
+```
+
 ---
 
 ## 🛠️ Available Commands
+
+**Note**: All `make` commands must be run from the **project root directory** (`python-excercises/`).
 
 The `Makefile` provides convenient shortcuts:
 
@@ -431,12 +442,14 @@ You're about to embark on an intensive journey to become a proficient Python bac
 ## Quick Reference Card
 
 ```bash
-# Daily routine
-cd days/day_XX_topic_name
+# Daily routine (run from project root)
 make test-day DAY=XX          # See failing tests
-# ... implement in task.py ...
+# ... edit days/day_XX_topic_name/task.py in your editor ...
 make test-day DAY=XX          # Verify passing tests
 make coverage DAY=XX          # Check coverage
+
+# If you're inside a day folder, go back to root first:
+cd ../..
 
 # Quality checks before moving on
 make format                   # Format code
