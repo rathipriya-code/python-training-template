@@ -35,7 +35,10 @@ def calculate_billable_hours(hours_worked: float, billable_percentage: float) ->
         >>> calculate_billable_hours(35.5, 50.0)
         17.75
     """
-    pass
+    billable_hours = hours_worked * (billable_percentage / 100)
+    return round(billable_hours, 2)
+print(calculate_billable_hours(40.0, 75.0))
+print(calculate_billable_hours(35.5, 50.0))
 
 
 def format_consultant_name(
@@ -58,7 +61,13 @@ def format_consultant_name(
         >>> format_consultant_name("Jane", "Smith", True)
         "Consultant Jane Smith"
     """
-    pass
+    full_name =f"{first_name} {last_name}"
+    if include_title:
+        return f"Consultant {full_name}"
+    return full_name
+print(format_consultant_name("John", "Doe", False))
+print(format_consultant_name("Jane", "Smith", True))
+
 
 
 def calculate_hourly_rate(
@@ -81,7 +90,11 @@ def calculate_hourly_rate(
         >>> calculate_hourly_rate(78000, 40)
         37.5
     """
-    pass
+    hourly_rate = annual_salary / (52 * working_hours_per_week)
+    return round(hourly_rate, 2)
+print(f"Hourly Rate: {calculate_hourly_rate(104000, 40)}")
+print(f"Hourly Rate: {calculate_hourly_rate(78000, 40)}")
+
 
 
 def is_overtime(hours_worked: float, standard_hours: float = 40.0) -> bool:
@@ -103,7 +116,10 @@ def is_overtime(hours_worked: float, standard_hours: float = 40.0) -> bool:
         >>> is_overtime(38.5)
         False
     """
-    pass
+    return hours_worked > standard_hours
+print(f"overtime test: {is_overtime(45.0)}")
+print(f"overtime test: {is_overtime(40.0)}")
+print(f"overtime test: {is_overtime(38.5)}")
 
 
 def get_project_code(client_name: str, project_id: Optional[int] = None) -> str:
@@ -126,4 +142,11 @@ def get_project_code(client_name: str, project_id: Optional[int] = None) -> str:
         >>> get_project_code("XY", 5)
         "XY-5"
     """
-    pass
+    code = client_name[:3].upper()
+    if project_id is not None:
+        return f"{code}-{project_id}"
+    return code
+print(f"Project Code: {get_project_code('Acme corp', 101)}")
+print(f"Project Code: {get_project_code("Beta Industries")}")
+print(f"Project Code: {get_project_code("XY", 5)}")
+
