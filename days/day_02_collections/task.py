@@ -46,7 +46,14 @@ def add_timesheet_entry(
         >>> result[0]["consultant"]
         "John Doe"
     """
-    pass
+    new_entry = {
+        "consultant": consultant,
+        "project": project,
+        "hours": hours,
+        "date": date
+    }
+    timesheets.append(new_entry)
+    return timesheets
 
 
 def get_total_hours_by_consultant(
@@ -72,7 +79,11 @@ def get_total_hours_by_consultant(
         >>> get_total_hours_by_consultant(timesheets, "John Doe")
         15.5
     """
-    pass
+    total_hours = 0.0
+    for entry in timesheets:
+        if entry["consultant"] == consultant:
+            total_hours += entry["hours"]
+    return total_hours
 
 
 def get_projects_for_consultant(
@@ -99,7 +110,12 @@ def get_projects_for_consultant(
         >>> get_projects_for_consultant(timesheets, "John Doe")
         ["ACM-101", "BET-5"]
     """
-    pass
+    unique_projects = set()
+    for entry in timesheets:
+        if entry["consultant"] == consultant:
+            unique_projects.add(entry["project"])
+    sorted_projects = sorted(list(unique_projects))
+    return sorted_projects
 
 
 def create_consultant_summary(timesheets: List[Dict[str, Any]]) -> Dict[str, float]:
@@ -121,7 +137,15 @@ def create_consultant_summary(timesheets: List[Dict[str, Any]]) -> Dict[str, flo
         >>> create_consultant_summary(timesheets)
         {"John Doe": 15.5, "Jane Smith": 6.0}
     """
-    pass
+    summary={}
+    for entry in timesheets:
+        name= entry["consultant"]
+        hours= entry["hours"]
+        if name in summary:
+            summary[name]+= hours
+        else:
+            summary[name]=hours
+    return summary
 
 
 def get_entries_by_date_range(
@@ -153,7 +177,11 @@ def get_entries_by_date_range(
         >>> result[0]["date"]
         "2026-02-15"
     """
-    pass
+    filtered_entries = []
+    for entry in timesheets:
+        if start_date <= entry["date"] <= end_date:
+            filtered_entries.append(entry)
+    return filtered_entries
 
 
 def merge_timesheet_lists(
@@ -179,7 +207,8 @@ def merge_timesheet_lists(
         >>> len(list1)  # Original list unchanged
         1
     """
-    pass
+    merged_list = list1 + list2
+    return merged_list
 
 
 def update_project_code(
@@ -209,4 +238,7 @@ def update_project_code(
         >>> timesheets[0]["project"]
         "ACM-102"
     """
-    pass
+    for entry in timesheets:
+        if entry["project"] == old_code:
+            entry["project"] = new_code
+    return timesheets
