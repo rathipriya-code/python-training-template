@@ -86,11 +86,9 @@ def calculate_hourly_rate(
         >>> calculate_hourly_rate(78000, 40)
         37.5
     """
-    hourly_rate = annual_salary / (52 * working_hours_per_week)
+    total_annual_hours = working_hours_per_week * 52
+    hourly_rate = annual_salary / total_annual_hours
     return round(hourly_rate, 2)
-
-
-
 
 def is_overtime(hours_worked: float, standard_hours: float = 40.0) -> bool:
     """
@@ -114,7 +112,6 @@ def is_overtime(hours_worked: float, standard_hours: float = 40.0) -> bool:
     return hours_worked > standard_hours
 
 
-
 def get_project_code(client_name: str, project_id: Optional[int] = None) -> str:
     """
     Generate a project code for timesheet entries.
@@ -135,8 +132,9 @@ def get_project_code(client_name: str, project_id: Optional[int] = None) -> str:
         >>> get_project_code("XY", 5)
         "XY-5"
     """
-    code = client_name[:3].upper()
+    code_base = client_name[:3].upper()
     if project_id is not None:
-        return f"{code}-{project_id}"
-    return code
+            return f"{code_base}-{project_id}"
+    
+    return code_base
 
