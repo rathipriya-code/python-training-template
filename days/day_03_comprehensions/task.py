@@ -36,7 +36,7 @@ def extract_consultant_names(timesheets: List[Dict[str, Any]]) -> List[str]:
         >>> extract_consultant_names(timesheets)
         ["John Doe", "Jane Smith"]
     """
-    return [t["consultant"] for t in timesheets]
+    pass
 
 
 def get_high_hour_entries(
@@ -64,7 +64,7 @@ def get_high_hour_entries(
         >>> len(result)
         2
     """
-    return [entry for entry in timesheets if entry ["hours"] >= threshold]
+    pass
 
 
 def calculate_daily_totals(timesheets: List[Dict[str, Any]]) -> Dict[str, float]:
@@ -87,11 +87,8 @@ def calculate_daily_totals(timesheets: List[Dict[str, Any]]) -> Dict[str, float]
         >>> calculate_daily_totals(timesheets)
         {"2026-02-10": 14.0, "2026-02-11": 7.0}
     """
-    unique_dates = {t["date"] for t in timesheets}
-    return {
-        date: sum(t["hours"] for t in timesheets if t["date"] == date)
-        for date in unique_dates
-    }
+    pass
+
 
 def get_billable_hours_map(
     timesheets: List[Dict[str, Any]],
@@ -118,12 +115,7 @@ def get_billable_hours_map(
         >>> get_billable_hours_map(timesheets, 80.0)
         {"John": 40.0, "Jane": 24.0}
     """
-    consultants = {t["consultant"] for t in timesheets}
-    return {
-        name: sum(t["hours"] * billable_rate / 100
-                  for t in timesheets if t["consultant"] == name)
-        for name in consultants
-    }
+    pass
 
 
 def extract_unique_projects(timesheets: List[Dict[str, Any]]) -> Set[str]:
@@ -145,7 +137,7 @@ def extract_unique_projects(timesheets: List[Dict[str, Any]]) -> Set[str]:
         >>> extract_unique_projects(timesheets)
         {"ACM-101", "BET-5"}
     """
-    return {t["project"] for t in timesheets}
+    pass
 
 
 def create_consultant_project_matrix(
@@ -171,13 +163,7 @@ def create_consultant_project_matrix(
         >>> create_consultant_project_matrix(timesheets)
         {"John": ["ACM-101", "BET-5"], "Jane": ["ACM-101"]}
     """
-    consultants = {t["consultant"] for t in timesheets}
-    return {
-        name: sorted({
-            t["project"] for t in timesheets if t["consultant"] == name
-        })
-        for name in consultants
-    }
+    pass
 
 
 def transform_to_uppercase_projects(
@@ -202,10 +188,7 @@ def transform_to_uppercase_projects(
         >>> result[0]["project"]
         "ACM-101"
     """
-    return [
-        {**t, "project": t["project"].upper()}
-        for t in timesheets
-    ]
+    pass
 
 
 def filter_and_transform(
@@ -234,11 +217,7 @@ def filter_and_transform(
         >>> filter_and_transform(timesheets, 7.0, "ACM")
         ["John"]
     """
-    return [
-        t["consultant"]
-        for t in timesheets
-        if t["hours"] >= min_hours and t["project"].startswith(project_prefix)
-    ]
+    pass
 
 
 def nested_hours_by_consultant_and_project(
@@ -267,12 +246,4 @@ def nested_hours_by_consultant_and_project(
         >>> result["John"]["BET-5"]
         6.0
     """
-    consultants = {t["consultant"] for t in timesheets}
-    return {
-        name: {
-            proj: sum(t["hours"] for t in timesheets if t["consultant"] == name and t["project"] == proj)
-            for proj in {t["project"] for t in timesheets if t["consultant"] == name}
-        }
-        for name in consultants
-    }
-    
+    pass
