@@ -14,10 +14,10 @@ repos:
   - repo: local
     hooks:
       - id: pytest-check
-        name: pytest
-        entry: pytest $(echo "${{ steps.changed-files.outputs.all_changed_files }}" | xargs -n 1 dirname | grep -E '^days/day_[0-9]+' | sort -u)
+        name: pytest-changed-days
+        # Filter directories matching 'days/day_XX', then run pytest on them
+        entry: bash -c 'dirs=$(echo "$@" | xargs -n1 dirname | grep -E "^days/day_[0-9]+" | sort -u); if [ -n "$dirs" ]; then pytest $dirs; else echo "No matching day folders changed."; fi' --
         language: system
-        types: [python]
-        stages: [commit]
         pass_filenames: true
         always_run: false
+        files: ^days/day_[0-9]+/  # Only trigger if files inside these folders change
