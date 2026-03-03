@@ -58,12 +58,3 @@ jobs:
           else
             echo "Changes were outside of day-specific folders. Skipping specific checks."
           fi
-
-      - name: Upload coverage reports
-        uses: codecov/codecov-action@v3
-        with:
-          files: ./coverage.xml
-          flags: unittests
-          name: codecov-umbrella
-        # Only upload if tests actually ran and generated a report
-        if: matrix.python-version == '3.11' && steps.changed-files.outputs.any_changed == 'true'
