@@ -20,33 +20,36 @@ from typing import Dict, Any, Optional, List
 
 class TimesheetValidationError(Exception):
     """Custom exception for timesheet validation errors"""
+
     pass
 
 
 class InvalidHoursError(TimesheetValidationError):
     """Raised when hours value is invalid"""
+
     pass
 
 
 class InvalidDateError(TimesheetValidationError):
     """Raised when date format is invalid"""
+
     pass
 
 
 def validate_hours(hours: float) -> float:
     """
     Validate that hours are within acceptable range (0.5 to 24.0).
-    
+
     Args:
         hours: Number of hours to validate
-    
+
     Returns:
         The validated hours value
-    
+
     Raises:
         InvalidHoursError: If hours are negative, zero, or > 24
         TypeError: If hours is not a number
-    
+
     Example:
         >>> validate_hours(8.0)
         8.0
@@ -61,14 +64,14 @@ def validate_hours(hours: float) -> float:
 def safe_divide_hours(total_hours: float, days: int) -> Optional[float]:
     """
     Safely divide total hours by number of days.
-    
+
     Args:
         total_hours: Total hours to divide
         days: Number of days to divide by
-    
+
     Returns:
         Average hours per day, or None if division by zero
-    
+
     Example:
         >>> safe_divide_hours(40.0, 5)
         8.0
@@ -81,16 +84,16 @@ def safe_divide_hours(total_hours: float, days: int) -> Optional[float]:
 def parse_date(date_string: str) -> tuple[int, int, int]:
     """
     Parse a date string in format "YYYY-MM-DD" and validate it.
-    
+
     Args:
         date_string: Date string to parse
-    
+
     Returns:
         Tuple of (year, month, day) as integers
-    
+
     Raises:
         InvalidDateError: If date format is invalid or values are out of range
-    
+
     Example:
         >>> parse_date("2026-02-10")
         (2026, 2, 10)
@@ -103,26 +106,23 @@ def parse_date(date_string: str) -> tuple[int, int, int]:
 
 
 def validate_and_create_entry(
-    consultant: str,
-    project: str,
-    hours: float,
-    date: str
+    consultant: str, project: str, hours: float, date: str
 ) -> Dict[str, Any]:
     """
     Validate all fields and create a timesheet entry.
-    
+
     Args:
         consultant: Consultant name (must not be empty)
         project: Project code (must not be empty)
         hours: Hours worked (must be 0.5 to 24.0)
         date: Date in format "YYYY-MM-DD"
-    
+
     Returns:
         Dictionary with validated timesheet entry
-    
+
     Raises:
         TimesheetValidationError: If any validation fails
-    
+
     Example:
         >>> entry = validate_and_create_entry("John Doe", "ACM-101", 8.0, "2026-02-10")
         >>> entry["consultant"]
@@ -135,22 +135,18 @@ def validate_and_create_entry(
     pass
 
 
-def safe_get_nested_value(
-    data: Dict[str, Any],
-    *keys: str,
-    default: Any = None
-) -> Any:
+def safe_get_nested_value(data: Dict[str, Any], *keys: str, default: Any = None) -> Any:
     """
     Safely get a nested value from a dictionary.
-    
+
     Args:
         data: Dictionary to search
         *keys: Variable number of keys to traverse
         default: Default value if key path doesn't exist
-    
+
     Returns:
         The value if found, otherwise default
-    
+
     Example:
         >>> data = {"consultant": {"name": "John", "id": 123}}
         >>> safe_get_nested_value(data, "consultant", "name")
@@ -164,20 +160,20 @@ def safe_get_nested_value(
 
 
 def process_timesheet_batch(
-    entries: List[Dict[str, Any]]
+    entries: List[Dict[str, Any]],
 ) -> tuple[List[Dict[str, Any]], List[str]]:
     """
     Process a batch of timesheet entries, collecting valid ones and error messages.
     Each entry should have keys: consultant, project, hours, date
-    
+
     Args:
         entries: List of timesheet entry dictionaries to validate
-    
+
     Returns:
         Tuple of (valid_entries, error_messages)
         - valid_entries: List of successfully validated entries
         - error_messages: List of error messages for invalid entries
-    
+
     Example:
         >>> entries = [
         ...     {"consultant": "John", "project": "ACM-101", "hours": 8.0, "date": "2026-02-10"},
@@ -194,21 +190,19 @@ def process_timesheet_batch(
 
 
 def calculate_with_fallback(
-    hours: float,
-    rate: float,
-    fallback_rate: float = 50.0
+    hours: float, rate: float, fallback_rate: float = 50.0
 ) -> float:
     """
     Calculate billable amount with fallback for invalid rates.
-    
+
     Args:
         hours: Hours worked
         rate: Hourly rate
         fallback_rate: Rate to use if primary rate is invalid
-    
+
     Returns:
         Calculated amount (hours * rate, or hours * fallback_rate if rate <= 0)
-    
+
     Example:
         >>> calculate_with_fallback(8.0, 75.0)
         600.0
@@ -220,29 +214,26 @@ def calculate_with_fallback(
     pass
 
 
-def guaranteed_cleanup_operation(
-    filepath: str,
-    data: str
-) -> bool:
+def guaranteed_cleanup_operation(filepath: str, data: str) -> bool:
     """
     Demonstrate try/except/else/finally with a mock file operation.
-    
+
     This function simulates:
     - Writing data (raises ValueError if filepath is empty)
     - Success message in else clause
     - Cleanup in finally clause
-    
+
     Args:
         filepath: Path where data should be written
         data: Data to write
-    
+
     Returns:
         True if successful, False if an error occurred
-    
+
     Note:
         This is a mock function for demonstrating exception handling patterns.
         It doesn't actually write to a file.
-    
+
     Example:
         >>> guaranteed_cleanup_operation("timesheet.txt", "data")
         True
