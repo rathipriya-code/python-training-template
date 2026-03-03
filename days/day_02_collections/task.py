@@ -150,7 +150,7 @@ def create_consultant_summary(timesheets: List[Dict[str, Any]]) -> Dict[str, flo
             summary[name] += hours
         else:
             summary[name] = hours
-
+    return summary
 
 
 def get_entries_by_date_range(
@@ -210,7 +210,9 @@ def merge_timesheet_lists(
         1
     """
 
+
     return list1 + list2
+
 
 
 
