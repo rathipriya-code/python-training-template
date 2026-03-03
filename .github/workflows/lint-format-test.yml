@@ -49,8 +49,8 @@ jobs:
             # 2. Run Ruff on changed directories
             ruff check $DIRS
             
-            # 3. Run Black on changed directories
-            black --check $DIRS
+            # 3. Run Ruff format on changed directories
+            ruff format --check $DIRS
             
             # 4. Run Pytest on changed directories
             # Note: --cov=days is kept so coverage maps back to the source correctly
