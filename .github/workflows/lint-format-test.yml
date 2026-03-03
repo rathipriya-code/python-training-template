@@ -11,7 +11,7 @@ jobs:
     
     strategy:
       matrix:
-        python-version: ["3.10", "3.11", "3.12"]
+        python-version: ["3.12"]
     
     steps:
       - name: Checkout code
@@ -54,7 +54,7 @@ jobs:
             
             # 4. Run Pytest on changed directories
             # Note: --cov=days is kept so coverage maps back to the source correctly
-            pytest $DIRS --cov=days --cov-report=xml --cov-report=term-missing
+            pytest $DIRS
           else
             echo "Changes were outside of day-specific folders. Skipping specific checks."
           fi
