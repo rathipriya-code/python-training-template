@@ -32,7 +32,7 @@ timesheets_db = {}
 app = FastAPI(
     title="Timesheet Tracker API",
     description="Consulting Timesheet Management System",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 
@@ -40,7 +40,7 @@ app = FastAPI(
 async def root():
     """
     Root endpoint - returns API information.
-    
+
     Returns:
         Dictionary with API name and version
     """
@@ -51,7 +51,7 @@ async def root():
 async def health_check():
     """
     Health check endpoint.
-    
+
     Returns:
         Dictionary with status="healthy"
     """
@@ -62,13 +62,13 @@ async def health_check():
 async def create_consultant(consultant: dict):
     """
     Create a new consultant.
-    
+
     Args:
         consultant: Consultant data (name, employee_id, hourly_rate, email)
-    
+
     Returns:
         Created consultant with generated ID
-    
+
     Raises:
         HTTPException 400: If consultant data is invalid
     """
@@ -77,16 +77,15 @@ async def create_consultant(consultant: dict):
 
 @app.get("/consultants")
 async def list_consultants(
-    skip: int = Query(0, ge=0),
-    limit: int = Query(100, ge=1, le=100)
+    skip: int = Query(0, ge=0), limit: int = Query(100, ge=1, le=100)
 ):
     """
     List all consultants with pagination.
-    
+
     Args:
         skip: Number of records to skip
         limit: Maximum number of records to return
-    
+
     Returns:
         List of consultants
     """
@@ -97,13 +96,13 @@ async def list_consultants(
 async def get_consultant(consultant_id: int):
     """
     Get a specific consultant by ID.
-    
+
     Args:
         consultant_id: Consultant ID
-    
+
     Returns:
         Consultant data
-    
+
     Raises:
         HTTPException 404: If consultant not found
     """
@@ -114,14 +113,14 @@ async def get_consultant(consultant_id: int):
 async def update_consultant(consultant_id: int, consultant: dict):
     """
     Update a consultant.
-    
+
     Args:
         consultant_id: Consultant ID
         consultant: Updated consultant data
-    
+
     Returns:
         Updated consultant
-    
+
     Raises:
         HTTPException 404: If consultant not found
     """
@@ -132,10 +131,10 @@ async def update_consultant(consultant_id: int, consultant: dict):
 async def delete_consultant(consultant_id: int):
     """
     Delete a consultant.
-    
+
     Args:
         consultant_id: Consultant ID
-    
+
     Raises:
         HTTPException 404: If consultant not found
     """
@@ -146,10 +145,10 @@ async def delete_consultant(consultant_id: int):
 async def create_project(project: dict):
     """
     Create a new project.
-    
+
     Args:
         project: Project data (code, client_name, budget_hours, status)
-    
+
     Returns:
         Created project with generated ID
     """
@@ -158,18 +157,16 @@ async def create_project(project: dict):
 
 @app.get("/projects")
 async def list_projects(
-    status_filter: Optional[str] = None,
-    skip: int = 0,
-    limit: int = 100
+    status_filter: Optional[str] = None, skip: int = 0, limit: int = 100
 ):
     """
     List projects with optional status filter.
-    
+
     Args:
         status_filter: Optional status to filter by
         skip: Number of records to skip
         limit: Maximum records to return
-    
+
     Returns:
         List of projects
     """
@@ -180,13 +177,13 @@ async def list_projects(
 async def get_project(project_id: int):
     """
     Get a specific project by ID.
-    
+
     Args:
         project_id: Project ID
-    
+
     Returns:
         Project data
-    
+
     Raises:
         HTTPException 404: If project not found
     """
@@ -197,13 +194,13 @@ async def get_project(project_id: int):
 async def create_timesheet_entry(entry: dict):
     """
     Create a new timesheet entry.
-    
+
     Args:
         entry: Timesheet entry data
-    
+
     Returns:
         Created entry with generated ID
-    
+
     Raises:
         HTTPException 400: If validation fails
         HTTPException 404: If consultant or project not found
@@ -218,11 +215,11 @@ async def list_timesheet_entries(
     start_date: Optional[date] = None,
     end_date: Optional[date] = None,
     skip: int = 0,
-    limit: int = 100
+    limit: int = 100,
 ):
     """
     List timesheet entries with optional filters.
-    
+
     Args:
         consultant_id: Filter by consultant
         project_id: Filter by project
@@ -230,7 +227,7 @@ async def list_timesheet_entries(
         end_date: Filter by end date (inclusive)
         skip: Number of records to skip
         limit: Maximum records to return
-    
+
     Returns:
         List of timesheet entries
     """
@@ -241,13 +238,13 @@ async def list_timesheet_entries(
 async def get_timesheet_entry(entry_id: int):
     """
     Get a specific timesheet entry.
-    
+
     Args:
         entry_id: Entry ID
-    
+
     Returns:
         Timesheet entry data
-    
+
     Raises:
         HTTPException 404: If entry not found
     """
@@ -258,7 +255,7 @@ async def get_timesheet_entry(entry_id: int):
 async def get_summary_stats():
     """
     Get summary statistics.
-    
+
     Returns:
         Dictionary with:
         - total_consultants
@@ -273,19 +270,19 @@ async def get_summary_stats():
 async def get_consultant_hours(
     consultant_id: int,
     start_date: Optional[date] = None,
-    end_date: Optional[date] = None
+    end_date: Optional[date] = None,
 ):
     """
     Get total hours for a consultant.
-    
+
     Args:
         consultant_id: Consultant ID
         start_date: Optional start date filter
         end_date: Optional end date filter
-    
+
     Returns:
         Dictionary with consultant info and total hours
-    
+
     Raises:
         HTTPException 404: If consultant not found
     """

@@ -1,5 +1,7 @@
 # 🚀 Python Intensive: 14-Day Training Program
 
+[![CI](https://github.com/rathipriya-code/python-training-template/actions/workflows/ci.yml/badge.svg)](https://github.com/rathipriya-code/python-training-template/actions/workflows/ci.yml)
+
 **From Zero to Production-Ready FastAPI CRUD Application**
 
 A comprehensive, hands-on Python training program designed for freshers, transitioning you from basic Python fundamentals to building production-ready FastAPI applications with 100% test coverage.
