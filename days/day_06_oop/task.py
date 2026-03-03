@@ -31,7 +31,9 @@ class Consultant:
             employee_id: Unique employee identifier
             hourly_rate: Hourly billing rate
         """
-        pass
+        self.name = name
+        self.employee_id = employee_id
+        self.hourly_rate = hourly_rate
     
     def calculate_earnings(self, hours: float) -> float:
         """
@@ -43,7 +45,8 @@ class Consultant:
         Returns:
             Total earnings (hours * hourly_rate)
         """
-        pass
+        total_earnings = hours * self.hourly_rate
+        return total_earnings
     
     def get_display_name(self) -> str:
         """
@@ -52,15 +55,18 @@ class Consultant:
         Returns:
             Name with employee ID: "Name (ID: employee_id)"
         """
-        pass
+        return f"{self.name} (ID: {self.employee_id})"
     
     def __str__(self) -> str:
         """String representation of consultant"""
-        pass
+        return f"consultant {self.get_display_name()}, Hourly Rate:{self.hourly_rate}"
     
     def __repr__(self) -> str:
         """Developer-friendly representation"""
-        pass
+        return (f"Consultant Name: '{self.name}',"
+        f"Employee ID: '{self.employee_id}',"
+        f"Hourly Rate: '{self.hourly_rate}'"
+        )
 
 
 class Project:
@@ -75,7 +81,9 @@ class Project:
             client_name: Name of the client
             budget_hours: Total budgeted hours for the project
         """
-        pass
+        self.code = code
+        self.client_name = client_name
+        self.budget_hours = budget_hours
     
     def is_over_budget(self, hours_used: float) -> bool:
         """
@@ -87,7 +95,8 @@ class Project:
         Returns:
             True if over budget, False otherwise
         """
-        pass
+        return hours_used > self.budget_hours
+
     
     def remaining_hours(self, hours_used: float) -> float:
         """
@@ -99,11 +108,13 @@ class Project:
         Returns:
             Remaining hours (can be negative if over budget)
         """
-        pass
+        return self.budget_hours - hours_used
     
     def __str__(self) -> str:
         """String representation of project"""
-        pass
+        return ( f"Project_code: {self.code},"
+                f"Client_Name: {self.client_name},"
+                f"Budget_hours: {self.budget_hours}")
 
 
 class TimesheetEntry:
@@ -127,7 +138,11 @@ class TimesheetEntry:
             entry_date: Date of work (YYYY-MM-DD)
             description: Optional description of work done
         """
-        pass
+        self.consultant = consultant
+        self.project = project
+        self.hours = hours
+        self.entry_date = entry_date
+        self.description = description
     
     def calculate_value(self) -> float:
         """
@@ -136,7 +151,7 @@ class TimesheetEntry:
         Returns:
             Value (hours * consultant hourly rate)
         """
-        pass
+        return self.hours * self.consultant.hourly_rate
     
     def get_summary(self) -> str:
         """
@@ -145,7 +160,7 @@ class TimesheetEntry:
         Returns:
             Summary: "YYYY-MM-DD: Consultant Name on Project Code (X hours)"
         """
-        pass
+        return(f"Summary: {self.entry_date}: {self.consultant.name} on " f"{self.project.code}" f"({self.hours} hours)")
     
     def is_overtime(self, threshold: float = 8.0) -> bool:
         """
@@ -157,7 +172,7 @@ class TimesheetEntry:
         Returns:
             True if hours >= threshold
         """
-        pass
+        return self.hours >= threshold
 
 
 class TimesheetManager:
@@ -165,8 +180,8 @@ class TimesheetManager:
     
     def __init__(self):
         """Initialize an empty timesheet manager"""
-        pass
-    
+        
+        self.entries: List[TimesheetEntry] = []
     def add_entry(self, entry: TimesheetEntry) -> None:
         """
         Add a timesheet entry.
@@ -174,7 +189,7 @@ class TimesheetManager:
         Args:
             entry: TimesheetEntry to add
         """
-        pass
+        self.entries.append(entry)
     
     def get_entries_by_consultant(self, consultant_name: str) -> List[TimesheetEntry]:
         """
@@ -186,7 +201,11 @@ class TimesheetManager:
         Returns:
             List of timesheet entries
         """
-        pass
+        return [
+            entry for entry in self.entries
+            if entry.consultant.name == consultant_name
+        ]
+    
     
     def get_entries_by_project(self, project_code: str) -> List[TimesheetEntry]:
         """
@@ -198,7 +217,11 @@ class TimesheetManager:
         Returns:
             List of timesheet entries
         """
-        pass
+        return [
+            entry for entry in self.entries
+            if entry.project.code == project_code
+        ]
+    
     
     def get_total_hours(self) -> float:
         """
@@ -207,7 +230,8 @@ class TimesheetManager:
         Returns:
             Total hours
         """
-        pass
+        return sum(entry.hours for entry in self.entries)
+    
     
     def get_total_value(self) -> float:
         """
@@ -216,7 +240,8 @@ class TimesheetManager:
         Returns:
             Total value
         """
-        pass
+        return sum(entry.calculate_value() for entry in self.entries)
+    
     
     def get_consultant_summary(self) -> dict[str, float]:
         """
@@ -225,7 +250,17 @@ class TimesheetManager:
         Returns:
             Dictionary mapping consultant names to total hours
         """
-        pass
+        summary: dict[str, float] = {}
+        
+        for entry in self.entries:
+            name = entry.consultant.name
+            
+            if name not in summary:
+                summary[name] = 0.0
+            
+            summary[name] += entry.hours
+        
+        return summary
 
 
 class BillableProject(Project):
@@ -247,7 +282,14 @@ class BillableProject(Project):
             budget_hours: Total budgeted hours
             billable_rate: Percentage of hours that are billable (0-100)
         """
-        pass
+        self.code = code
+        self.client_name = client_name
+        self.budget_hours = budget_hours
+        self.billable_rate = billable_rate
+        if not 0 <= billable_rate <= 100:
+            raise ValueError("billable_rate must be between 0 and 100")
+     
+
     
     def calculate_billable_hours(self, total_hours: float) -> float:
         """
@@ -259,7 +301,7 @@ class BillableProject(Project):
         Returns:
             Billable hours (total_hours * billable_rate / 100)
         """
-        pass
+        return total_hours * (self.billable_rate / 100)
     
     def calculate_billable_amount(
         self,
@@ -276,4 +318,5 @@ class BillableProject(Project):
         Returns:
             Billable amount
         """
-        pass
+        billable_hours = self.calculate_billable_hours(total_hours)
+        return billable_hours * hourly_rate
