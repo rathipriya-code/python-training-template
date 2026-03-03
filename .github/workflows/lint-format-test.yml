@@ -9,15 +9,17 @@ jobs:
   lint-format-test-matrix:
     runs-on: ubuntu-latest
     
-    strategy:
-      matrix:
-        python-version: ["3.12"]
-    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Important: fetch-depth 0 is needed to detect changes
+          fetch-depth: 0 
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: 'pip'
 
       - name: Get changed files
         id: changed-files
@@ -25,38 +27,31 @@ jobs:
         with:
           files: days/**
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-          cache: 'pip'
-      
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -e ".[dev]"
       
-      - name: Run Lint, Format, and Test on modified folders
+      - name: Run Quality Checks and Tests
         if: steps.changed-files.outputs.any_changed == 'true'
         run: |
-          # 1. Get unique directory names for changed files inside days/
-          # This filters for directories like 'days/day_14_production_app'
+          # 1. Extract the specific Day directories
           DIRS=$(echo "${{ steps.changed-files.outputs.all_changed_files }}" | xargs -n 1 dirname | grep -E '^days/day_[0-9]+' | sort -u)
           
           if [ -n "$DIRS" ]; then
             echo "Processing modified directories: $DIRS"
             
-            # 2. Run Ruff on changed directories
+            # 2. Run Ruff (Checks for logic errors/unused imports)
             ruff check $DIRS
             
             # 3. Run Ruff format on changed directories
             ruff format --check $DIRS
             
-            # 4. Run Pytest on changed directories
-            # Note: --cov=days is kept so coverage maps back to the source correctly
-            pytest $DIRS
+            # 4. Run Pytest
+            # We add --cov-report=xml to ensure Codecov finds the file
+            pytest --cov=days --cov-report=xml $DIRS
           else
-            echo "Changes were outside of day-specific folders. Skipping specific checks."
+            echo "No day-specific folders modified."
           fi
 
   # Aggregator job — matches the branch protection rule check name exactly
