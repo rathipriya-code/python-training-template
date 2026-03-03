@@ -8,6 +8,7 @@ help: ## Show this help message
 
 install: ## Install all dependencies
 	pip install -e ".[dev]"
+	pre-commit install
 
 test: ## Run all tests with coverage
 	pytest
