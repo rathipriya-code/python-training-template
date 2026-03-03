@@ -81,12 +81,9 @@ def get_total_hours_by_consultant(
     """
     total_hours = 0.0
     for entry in timesheets:
- 
-        if entry.get("consultant") == consultant:
-            total_hours += entry.get("hours", 0.0)
+        if entry["consultant"] == consultant:
+            total_hours += entry["hours"]
     return total_hours
-
- 
 
 
 def get_projects_for_consultant(
@@ -113,15 +110,12 @@ def get_projects_for_consultant(
         >>> get_projects_for_consultant(timesheets, "John Doe")
         ["ACM-101", "BET-5"]
     """
-
-    projects = set()
+    unique_projects = set()
     for entry in timesheets:
-        if entry.get("consultant") == consultant:
-            project_code = entry.get("project")
-            if project_code:
-                projects.add(project_code)
-    return sorted(list(projects))
-    
+        if entry["consultant"] == consultant:
+            unique_projects.add(entry["project"])
+    sorted_projects = sorted(list(unique_projects))
+    return sorted_projects
 
 
 def create_consultant_summary(timesheets: List[Dict[str, Any]]) -> Dict[str, float]:
@@ -143,8 +137,6 @@ def create_consultant_summary(timesheets: List[Dict[str, Any]]) -> Dict[str, flo
         >>> create_consultant_summary(timesheets)
         {"John Doe": 15.5, "Jane Smith": 6.0}
     """
-    
-
     summary={}
     for entry in timesheets:
         name= entry["consultant"]
@@ -153,7 +145,6 @@ def create_consultant_summary(timesheets: List[Dict[str, Any]]) -> Dict[str, flo
             summary[name]+= hours
         else:
             summary[name]=hours
-
     return summary
 
 
@@ -215,8 +206,7 @@ def merge_timesheet_lists(
         2
         >>> len(list1)  # Original list unchanged
         1
-
-
+    """
     merged_list = list1 + list2
     return merged_list
 
@@ -249,7 +239,6 @@ def update_project_code(
         "ACM-102"
     """
     for entry in timesheets:
-
         if entry["project"] == old_code:
             entry["project"] = new_code
     return timesheets
