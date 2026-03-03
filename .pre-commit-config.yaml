@@ -15,7 +15,7 @@ repos:
     hooks:
       - id: pytest-check
         name: pytest
-        entry: pytest
+        entry: pytest $(echo "${{ steps.changed-files.outputs.all_changed_files }}" | xargs -n 1 dirname | grep -E '^days/day_[0-9]+' | sort -u)
         language: system
         types: [python]
         stages: [commit]
