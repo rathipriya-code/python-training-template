@@ -215,7 +215,7 @@ def merge_timesheet_lists(
         2
         >>> len(list1)  # Original list unchanged
         1
-
+    """
 
     merged_list = list1 + list2
     return merged_list
