@@ -9,6 +9,7 @@ repos:
   - repo: local
     hooks:
       - id: pytest-check
+<<<<<<< HEAD
         name: pytest-changed-days
         # Filter directories matching 'days/day_XX', then run pytest on them
         entry: bash -c 'dirs=$(echo "$@" | xargs -n1 dirname | grep -E "^days/day_[0-9]+" | sort -u); if [ -n "$dirs" ]; then pytest $dirs; else echo "No matching day folders changed."; fi' --
@@ -16,3 +17,10 @@ repos:
         pass_filenames: true
         always_run: false
         files: ^days/day_[0-9]+/  # Only trigger if files inside these folders change
+=======
+        name: pytest
+        entry: pytest days/day_01_type_hinting
+        language: system
+        pass_filenames: false
+        always_run: true
+>>>>>>> fd9f391 (DAY01: completed with 100% coverage)
