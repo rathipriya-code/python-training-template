@@ -50,7 +50,7 @@ def add_timesheet_entry(
         "consultant": consultant,
         "project": project,
         "hours": hours,
-        "date": date
+        "date": date,
     }
     timesheets.append(new_entry)
     return timesheets
@@ -80,12 +80,9 @@ def get_total_hours_by_consultant(
     """
     total_hours = 0.0
     for entry in timesheets:
-
         if entry.get("consultant") == consultant:
             total_hours += entry.get("hours", 0.0)
     return total_hours
-
-
 
 
 def get_projects_for_consultant(
@@ -112,14 +109,12 @@ def get_projects_for_consultant(
         ["ACM-101", "BET-5"]
     """
 
-
     unique_projects = set()
     for entry in timesheets:
         if entry["consultant"] == consultant:
             unique_projects.add(entry["project"])
     sorted_projects = sorted(list(unique_projects))
     return sorted_projects
-
 
 
 def create_consultant_summary(timesheets: List[Dict[str, Any]]) -> Dict[str, float]:
@@ -210,10 +205,7 @@ def merge_timesheet_lists(
         1
     """
 
-
     return list1 + list2
-
-
 
 
 def update_project_code(
@@ -242,8 +234,6 @@ def update_project_code(
         "ACM-102"
     """
     for entry in timesheets:
-
         if entry.get("project") == old_code:
             entry["project"] = new_code
     return timesheets
- 

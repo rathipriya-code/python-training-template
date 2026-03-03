@@ -59,11 +59,10 @@ def format_consultant_name(
         >>> format_consultant_name("Jane", "Smith", True)
         "Consultant Jane Smith"
     """
-    full_name =f"{first_name} {last_name}"
+    full_name = f"{first_name} {last_name}"
     if include_title:
         return f"Consultant {full_name}"
     return full_name
-
 
 
 def calculate_hourly_rate(
@@ -89,6 +88,7 @@ def calculate_hourly_rate(
     total_annual_hours = working_hours_per_week * 52
     hourly_rate = annual_salary / total_annual_hours
     return round(hourly_rate, 2)
+
 
 def is_overtime(hours_worked: float, standard_hours: float = 40.0) -> bool:
     """
@@ -134,7 +134,6 @@ def get_project_code(client_name: str, project_id: Optional[int] = None) -> str:
     """
     code_base = client_name[:3].upper()
     if project_id is not None:
-            return f"{code_base}-{project_id}"
-    
-    return code_base
+        return f"{code_base}-{project_id}"
 
+    return code_base
