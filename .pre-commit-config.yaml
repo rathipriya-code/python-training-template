@@ -6,18 +6,12 @@ repos:
         args: [--fix]
       - id: ruff-format
 
-  - repo: https://github.com/psf/black
-    rev: 24.1.1
-    hooks:
-      - id: black
-      
   - repo: local
     hooks:
       - id: pytest-check
         name: pytest
         entry: pytest days/day_03_comprehensions
         language: system
-        types: [python]
-        stages: [commit]
         pass_filenames: true
         always_run: false
+        

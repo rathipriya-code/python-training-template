@@ -16,17 +16,16 @@ Build production-ready CRUD endpoints with proper data persistence,
 relationships, and advanced query capabilities.
 """
 
-from fastapi import FastAPI, HTTPException, BackgroundTasks, Depends
-from typing import List, Optional, Dict, Any
+from fastapi import FastAPI, BackgroundTasks, Depends
+from typing import List, Optional, Dict
 from datetime import date
-import json
 from pathlib import Path
 
 
 # Simulated database using JSON files
 class Database:
     """Simple file-based database for demonstration"""
-    
+
     def __init__(self, data_dir: str = "data"):
         self.data_dir = Path(data_dir)
         self.data_dir.mkdir(exist_ok=True)
@@ -34,43 +33,43 @@ class Database:
         self.projects_file = self.data_dir / "projects.json"
         self.timesheets_file = self.data_dir / "timesheets.json"
         self._init_files()
-    
+
     def _init_files(self):
         """Initialize data files if they don't exist"""
         pass
-    
+
     def get_consultants(self) -> List[Dict]:
         """Get all consultants"""
         pass
-    
+
     def get_consultant(self, consultant_id: int) -> Optional[Dict]:
         """Get consultant by ID"""
         pass
-    
+
     def create_consultant(self, consultant: Dict) -> Dict:
         """Create a new consultant"""
         pass
-    
+
     def update_consultant(self, consultant_id: int, consultant: Dict) -> Optional[Dict]:
         """Update a consultant"""
         pass
-    
+
     def delete_consultant(self, consultant_id: int) -> bool:
         """Delete a consultant"""
         pass
-    
+
     def get_projects(self) -> List[Dict]:
         """Get all projects"""
         pass
-    
+
     def create_project(self, project: Dict) -> Dict:
         """Create a new project"""
         pass
-    
+
     def get_timesheets(self) -> List[Dict]:
         """Get all timesheets"""
         pass
-    
+
     def create_timesheet(self, entry: Dict) -> Dict:
         """Create a new timesheet entry"""
         pass
@@ -94,11 +93,11 @@ async def send_notification(message: str):
 async def create_consultant_endpoint(
     consultant: Dict,
     background_tasks: BackgroundTasks,
-    database: Database = Depends(get_db)
+    database: Database = Depends(get_db),
 ):
     """
     Create consultant with background notification.
-    
+
     After creating consultant, send notification in background.
     """
     pass
@@ -109,7 +108,7 @@ async def search_consultants(
     name: Optional[str] = None,
     min_rate: Optional[float] = None,
     max_rate: Optional[float] = None,
-    database: Database = Depends(get_db)
+    database: Database = Depends(get_db),
 ):
     """
     Search consultants by name and rate range.
@@ -123,11 +122,11 @@ async def generate_timesheet_report(
     end_date: Optional[date] = None,
     consultant_id: Optional[int] = None,
     project_id: Optional[int] = None,
-    database: Database = Depends(get_db)
+    database: Database = Depends(get_db),
 ):
     """
     Generate comprehensive timesheet report with aggregations.
-    
+
     Returns:
         Report with total hours, breakdown by consultant/project,
         date range summary
@@ -139,7 +138,7 @@ async def generate_timesheet_report(
 async def get_consultant_timesheets(
     consultant_id: int,
     include_project_details: bool = True,
-    database: Database = Depends(get_db)
+    database: Database = Depends(get_db),
 ):
     """
     Get all timesheets for a consultant with optional project details.
@@ -148,10 +147,7 @@ async def get_consultant_timesheets(
 
 
 @app.get("/projects/{project_id}/stats")
-async def get_project_stats(
-    project_id: int,
-    database: Database = Depends(get_db)
-):
+async def get_project_stats(project_id: int, database: Database = Depends(get_db)):
     """
     Get statistics for a project:
     - Total hours used
@@ -164,12 +160,13 @@ async def get_project_stats(
 
 # Implement these CRUD helper functions:
 
+
 def filter_timesheets(
     timesheets: List[Dict],
     consultant_id: Optional[int] = None,
     project_id: Optional[int] = None,
     start_date: Optional[date] = None,
-    end_date: Optional[date] = None
+    end_date: Optional[date] = None,
 ) -> List[Dict]:
     """Filter timesheets by multiple criteria"""
     pass
