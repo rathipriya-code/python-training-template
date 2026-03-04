@@ -14,5 +14,5 @@ repos:
         entry: bash -c 'dirs=$(echo "$@" | xargs -n1 dirname | grep -E "^days/day_[0-9]+" | sort -u); if [ -n "$dirs" ]; then pytest $dirs; else echo "No matching day folders changed."; fi' --
         language: system
         pass_filenames: true
-        always_run: false        
+        always_run: false
         files: ^days/day_[0-9]+/  # Only trigger if files inside these folders change
