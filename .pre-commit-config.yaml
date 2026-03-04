@@ -10,7 +10,7 @@ repos:
     hooks:
       - id: pytest-check
         name: pytest
-        entry: pytest days/day_03_comprehensions
+        entry: pytest
         language: system
         pass_filenames: true
         always_run: false
