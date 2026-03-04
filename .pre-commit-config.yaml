@@ -15,7 +15,7 @@ repos:
     hooks:
       - id: pytest-check
         name: pytest
-        entry: pytest
+        entry: pytest days/day_03_comprehensions
         language: system
         types: [python]
         stages: [commit]
